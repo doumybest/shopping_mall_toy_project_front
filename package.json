@@ -1,0 +1,29 @@
+{
+  "name": "sample-mall-front",
+  "version": "0.0.1",
+  "private": true,
+  "packageManager": "pnpm@11.25.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "pnpm run type-check && vite build",
+    "preview": "vite preview",
+    "test:e2e": "playwright test",
+    "type-check": "vue-tsc --noEmit"
+  },
+  "dependencies": {
+    "vue": "^3.5.0",
+    "vue-router": "^5.4.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.1",
+    "@types/node": "^26.6.5",
+    "@vitejs/plugin-vue": "^6.0.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.0.0",
+    "vue-tsc": "^3.3.13"
+  },
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  }
+}
