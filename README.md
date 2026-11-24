@@ -1,7 +1,4 @@
 # 소소마켓 프론트엔드
-
-> **日本語・JPYストア**: サイト表示、認証メール、APIエラー、管理画面は日本語、通貨はJPY固定です。[日本語の設定手順](../back/docs/JAPANESE_SETUP.md)
-
 Vue 3 + Vite + TypeScript + Vue Router 기반의 쇼핑몰 MVP입니다. Spring Boot와 DB에 연결해 회원·상품·장바구니·주문·포인트를 관리합니다.
 
 백엔드는 Spring Data JPA를 사용하며 Controller → Service → Repository → Entity로 분리되어 있습니다. 기존 API를 유지하므로 프론트 실행 방식은 같습니다. [JPA 구조 안내](../back/docs/JPA_STRUCTURE.md)
