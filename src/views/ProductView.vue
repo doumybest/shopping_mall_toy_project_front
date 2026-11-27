@@ -8,7 +8,7 @@ const { products, user, busy, run, error, addToCart } = useShop()
 const route = useRoute()
 const router = useRouter()
 const product = computed(() => products.value.find(item => item.id === Number(route.params.id)))
-async function add(item: Product) { await router.push('/'); await addToCart(item) }
+async function add(item: Product, position: import('../utils/popupPosition').PopupPosition) { await router.push('/'); await addToCart(item, position) }
 </script>
 <template>
   <ProductDetail v-if="product" :key="product.id" :product="product" :user="user" :busy="busy" :run="run" :error-message="error" @close="router.push('/')" @add="add" />

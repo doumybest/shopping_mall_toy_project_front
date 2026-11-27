@@ -2,9 +2,10 @@
 import { computed, ref } from 'vue'
 import { money } from '../utils/format'
 import { categoryLabel } from '../utils/categories'
+import { popupPosition, type PopupPosition } from '../utils/popupPosition'
 import type { Product } from '../types/api'
 const props = defineProps<{ products: Product[]; wishlist: Product[]; busy: boolean; wishedOnly: boolean }>()
-defineEmits<{ add: [product: Product]; wish: [product: Product]; detail: [product: Product] }>()
+defineEmits<{ add: [product: Product, position: PopupPosition]; wish: [product: Product]; detail: [product: Product] }>()
 const search = ref('')
 const category = ref('すべて')
 const sort = ref('latest')
@@ -18,10 +19,6 @@ const filtered = computed(() => props.products.filter((item) =>
 function hideBrokenImage(event: Event) { if (event.target instanceof HTMLImageElement) event.target.style.visibility = 'hidden' }
 </script>
 <template>
-  <section v-if="!wishedOnly" class="hero">
-    <div><p class="eyebrow">暮らしに、小さなときめきを</p><h1>お気に入りと出会う場所。<br />毎日を、少し心地よく。</h1><p class="hero-copy">長く大切にしたくなるものを集めました。<br />日常に寄り添う、小さな楽しみを見つけてください。</p><a class="primary" href="#collection">商品を見る ↗</a></div>
-    <div class="hero-art" aria-hidden="true"><div class="circle"></div><div class="vase">✿</div><div class="art-caption">a little joy<br />for your everyday.</div></div>
-  </section>
   <section id="collection" class="collection">
     <div class="section-heading"><div><p class="eyebrow">{{ wishedOnly ? 'お気に入り' : '商品一覧' }}</p><h2>{{ wishedOnly ? 'お気に入りの商品' : '今日のおすすめ' }}</h2></div><label class="search"><span class="sr-only">商品を検索</span><input v-model="search" type="search" placeholder="お探しの商品を入力" /></label></div>
     <div class="filters"><div class="category-list"><button v-for="item in categories" :key="item" :aria-pressed="category === item" :class="{ active: category === item }" @click="category = item">{{ item }}</button></div><label><span class="sr-only">商品の並び順</span><select v-model="sort"><option value="latest">新着順</option><option value="low">価格が安い順</option><option value="high">価格が高い順</option></select></label></div>
@@ -34,7 +31,7 @@ function hideBrokenImage(event: Event) { if (event.target instanceof HTMLImageEl
           <span v-if="product.stock === 0" class="sold-out">在庫切れ</span>
         </div>
         <p class="product-meta">{{ categoryLabel(product.category) }} · 在庫 {{ product.stock }}個</p><button class="product-title" @click="$emit('detail', product)">{{ product.name }}</button><p class="description">{{ product.description }}</p>
-        <div class="product-bottom"><strong>{{ money(product.price) }}</strong><button class="secondary" :disabled="busy || product.stock === 0" @click="$emit('add', product)">{{ product.stock ? 'カートに追加' : '在庫切れ' }}</button></div>
+        <div class="product-bottom"><strong>{{ money(product.price) }}</strong><button class="secondary" :disabled="busy || product.stock === 0" @click="$emit('add', product, popupPosition($event))">{{ product.stock ? 'カートに追加' : '在庫切れ' }}</button></div>
       </article>
     </div>
     <div v-else class="empty surface"><span>⌕</span><h3>商品が見つかりませんでした。</h3><p>検索条件を変更するか、お気に入りに商品を追加してください。</p></div>

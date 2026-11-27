@@ -8,6 +8,7 @@ import AccountView from '../views/AccountView.vue'
 import AdminView from '../views/AdminView.vue'
 import ProductView from '../views/ProductView.vue'
 import MessageView from '../views/MessageView.vue'
+import EventView from '../views/EventView.vue'
 
 declare module 'vue-router' {
   interface RouteMeta { requiresAuth?: boolean; adminOnly?: boolean; title?: string }
@@ -19,6 +20,7 @@ export const router = createRouter({
       { path: 'products/:id(\\d+)', name: 'product', component: ProductView, meta: { title: '商品詳細' } },
     ] },
     { path: '/login', name: 'login', component: AuthView, meta: { title: 'ログイン' } },
+    { path: '/events/:id(\\d+)', name: 'event', component: EventView, meta: { title: 'イベント詳細' } },
     { path: '/register', name: 'register', component: AuthView, meta: { title: '新規登録' } },
     { path: '/favorites', name: 'wishlist', component: CatalogView, meta: { requiresAuth: true, title: 'お気に入り' } },
     { path: '/cart', name: 'cart', component: CartView, meta: { requiresAuth: true, title: 'カート' } },

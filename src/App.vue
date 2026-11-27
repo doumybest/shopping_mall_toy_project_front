@@ -3,9 +3,11 @@ import { computed, watch } from 'vue'
 import { useRoute, useRouter, RouterView, RouterLink } from 'vue-router'
 import { useShop } from './composables/useShop'
 import { number } from './utils/format'
-const { user, products, authenticationRequired, busy, loading, error, notice, cartCount, start, logout } = useShop()
+import ActionPopup from './components/ActionPopup.vue'
+const { user, products, authenticationRequired, busy, loading, error, notice, popup, cartCount, start, logout } = useShop()
 const route = useRoute()
 const router = useRouter()
+watch(() => route.fullPath, () => { popup.value = null })
 const navItems = computed(() => [
   { key: 'shop', label: 'すべての商品' }, { key: 'wishlist', label: 'お気に入り' },
   { key: 'orders', label: '注文履歴' }, { key: 'account', label: 'マイページ' },
@@ -18,6 +20,7 @@ watch(authenticationRequired, () => {
 async function signOut() { await logout(); if (!user.value) await router.push('/') }
 </script>
 <template>
+  <ActionPopup v-if="popup" :feedback="popup" @close="popup = null" />
   <div class="announcement">デモストア · テスト決済専用 · 実際の請求は発生しません。</div>
   <header class="header wrap"><button class="brand" aria-label="ソソマーケット ホーム" @click="navigate('shop')">soso<span>market.</span></button><span class="header-note">毎日を、少し心地よく</span>
     <div class="header-actions"><template v-if="user"><span class="user-name">{{ user.name }}様 <span class="point-chip">{{ number(user.points) }} P</span></span><button class="text-button" :disabled="busy" @click="signOut">ログアウト</button></template><button v-else class="text-button" :disabled="busy" @click="navigate('login')">ログイン / 新規登録</button><button class="cart-button" :disabled="busy" @click="navigate('cart')">カート <b>{{ cartCount }}</b></button></div>
